@@ -13,6 +13,7 @@ $ docker build -t uwegerdes/apt-cacher-ng --build-arg TZ="Europe/Berlin" .
 $ docker run -d \
 	--restart=always \
 	--name apt-cacher-ng \
+	--hostname apt-cacher-ng \
 	-p 3142:3142 \
 	-v /srv/docker/apt-cacher-ng:/var/cache/apt-cacher-ng \
 	uwegerdes/apt-cacher-ng

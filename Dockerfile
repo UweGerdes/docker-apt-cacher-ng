@@ -11,13 +11,12 @@ RUN echo '${TZ}' >/etc/timezone && \
 	apt-get dist-upgrade -y && \
 	apt-get install -y \
 			apt-cacher-ng && \
-	rm -rf /var/lib/apt/lists/*
+	rm -rf /var/lib/apt/lists/* && \
+	sed -i -e 's/# ForeGround: 0/ForeGround: 1/g' /etc/apt-cacher-ng/acng.conf && \
+	sed -i -e 's/LogDir: \/var\/log\/apt-cacher-ng/LogDir: \/var\/cache\/apt-cacher-ng/g' /etc/apt-cacher-ng/acng.conf
 
 VOLUME "/var/cache/apt-cacher-ng"
 
 EXPOSE 3142
 
-COPY /start.sh /start.sh
-RUN chmod a+x /start.sh
-
-CMD ["/start.sh"]
+CMD /usr/sbin/apt-cacher-ng -c /etc/apt-cacher-ng
