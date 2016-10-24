@@ -20,3 +20,15 @@ $ docker run -d \
 ```
 
 Configuration and information about the cache is available with your browser, open `http://localhost:3142/acng-report.html` or the ip:port of the computer running `apt-cacher-ng`.
+
+## Using
+
+Add the following lines to your Dockerfile (see [uwegerdes/baseimage](https://github.com/UweGerdes/docker-baseimage)):
+
+```
+ARG APT_PROXY
+RUN if [ -n "${APT_PROXY}" ]; then \
+		echo "Acquire::http { Proxy \"${APT_PROXY}\"; };" >> /etc/apt/apt.conf.d/01proxy; \
+		echo "Acquire::https { Proxy \"https://\"; };" >> /etc/apt/apt.conf.d/01proxy; \
+	fi
+```
