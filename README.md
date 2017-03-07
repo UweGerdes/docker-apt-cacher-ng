@@ -19,7 +19,13 @@ $ docker run -d \
 	uwegerdes/apt-cacher-ng
 ```
 
-Configuration and information about the cache is available with your browser, open `http://localhost:3142/acng-report.html` or the ip:port of the computer running `apt-cacher-ng`.
+Configuration and information about the cache is available with your browser, open [http://localhost:3142/acng-report.html](http://localhost:3142/acng-report.html) or the ip:port of the computer running `apt-cacher-ng`.
+
+You should open port 3142 in your firewall to allow access from the docker-engine (on another network in your PC!), in my case it's `ufw`:
+
+```bash
+$ sudo ufw allow to any port 3142
+```
 
 ## Using
 
