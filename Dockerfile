@@ -12,6 +12,7 @@ RUN echo '${TZ}' >/etc/timezone && \
 	apt-get install -y \
 			apt-cacher-ng && \
 	rm -rf /var/lib/apt/lists/* && \
+	sed -i -e 's/# Port:3142/Port:3142/g' /etc/apt-cacher-ng/acng.conf && \
 	sed -i -e 's/# ForeGround: 0/ForeGround: 1/g' /etc/apt-cacher-ng/acng.conf && \
 	sed -i -e 's/LogDir: \/var\/log\/apt-cacher-ng/LogDir: \/var\/cache\/apt-cacher-ng/g' /etc/apt-cacher-ng/acng.conf
 
