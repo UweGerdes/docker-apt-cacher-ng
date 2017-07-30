@@ -38,3 +38,11 @@ RUN if [ -n "${APT_PROXY}" ]; then \
 		echo "Acquire::https { Proxy \"https://\"; };" >> /etc/apt/apt.conf.d/01proxy; \
 	fi
 ```
+
+To have a cache for building virtual machines please use those commands (with your local ip) in the VM:
+
+```bash
+echo "Acquire::http { Proxy \"http://192.168.1.18:3142\"; };" >> /etc/apt/apt.conf.d/01proxy
+echo "Acquire::https { Proxy \"https://\"; };" >> /etc/apt/apt.conf.d/01proxy
+```
+
