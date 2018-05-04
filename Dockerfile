@@ -1,3 +1,5 @@
+# apt-cacher-ng docker image for use with my baseimage
+
 FROM ubuntu:latest
 MAINTAINER entwicklung@uwegerdes.de
 
@@ -21,3 +23,4 @@ VOLUME "/var/cache/apt-cacher-ng"
 EXPOSE 3142
 
 CMD /usr/sbin/apt-cacher-ng -c /etc/apt-cacher-ng
+
