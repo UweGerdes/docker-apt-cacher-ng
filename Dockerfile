@@ -1,26 +1,22 @@
-# apt-cacher-ng docker image for use with my baseimage
+# syntax=docker/dockerfile:1
 
-FROM ubuntu:latest
+# Build: docker build -t apt-cacher-ng .
+# Run: docker run -d -p 3142:3142 --name apt-cacher-ng apt-cacher-ng
+#
+# and then you can run containers with:
+#   docker run -t -i --rm -e http_proxy http://dockerhost:3142/ debian bash
+#
+# Here, `dockerhost` is the IP address or FQDN of a host running the Docker daemon
+# which acts as an APT proxy server.
+FROM   ubuntu
 MAINTAINER entwicklung@uwegerdes.de
 
 ARG TZ=UTC
-
-ENV DEBIAN_FRONTEND noninteractive
 ENV TZ ${TZ}
+RUN echo '${TZ}' >/etc/timezone
 
-RUN echo '${TZ}' >/etc/timezone && \
-	apt-get update && \
-	apt-get dist-upgrade -y && \
-	apt-get install -y \
-			apt-cacher-ng && \
-	rm -rf /var/lib/apt/lists/* && \
-	sed -i -e 's/# Port:3142/Port:3142/g' /etc/apt-cacher-ng/acng.conf && \
-	sed -i -e 's/# ForeGround: 0/ForeGround: 1/g' /etc/apt-cacher-ng/acng.conf && \
-	sed -i -e 's/LogDir: \/var\/log\/apt-cacher-ng/LogDir: \/var\/cache\/apt-cacher-ng/g' /etc/apt-cacher-ng/acng.conf
-
-VOLUME "/var/cache/apt-cacher-ng"
+VOLUME ["/var/cache/apt-cacher-ng"]
+RUN    apt-get update && apt-get install -y apt-cacher-ng
 
 EXPOSE 3142
-
-CMD /usr/sbin/apt-cacher-ng -c /etc/apt-cacher-ng
-
+CMD    chmod 777 /var/cache/apt-cacher-ng && /etc/init.d/apt-cacher-ng start && tail -f /var/log/apt-cacher-ng/*
